@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">FirstApp</string>
+
+    <string name="name">Full Name<font color='#EE0000'> *</font></string>
+    <string name="user_full_name"><font color='#FF00FF'>User</font> <font color='#0000FF'> <i><b>full </b></i></font><font color='#FFF000'>name</font></string>
+
+    <string name="email">Email <font color='#FF0000'>*</font></string>
+    <string name="password">Password <font color='#FF0000'>*</font></string>
+
+</resources>
