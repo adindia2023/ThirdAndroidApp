@@ -1,25 +1,18 @@
 package com.example.thirdandroidapp;
 
 public class User {
-    private String id, Name, Qmail, Password;
-
-    public User(String id, String name, String qmail, String password) {
-        this.id = id;
-        Name = name;
-        Qmail = qmail;
-        Password = password;
-    }
-
-    public String getId() {
-        return id;
-    }
+    private String Email, Name, Password, Phone;
 
     public String getName() {
         return Name;
     }
 
-    public String getQmail() {
-        return Qmail;
+    public String getPhone() {
+        return Phone;
+    }
+
+    public String getEmail() {
+        return Email;
     }
 
     public String getPassword() {
