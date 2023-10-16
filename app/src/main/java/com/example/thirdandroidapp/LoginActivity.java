@@ -1,6 +1,7 @@
 package com.example.thirdandroidapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -30,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        loginStatus();
 
         //Initilize
         btnLogin = findViewById(R.id.btnLogin);
@@ -75,19 +78,39 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void loginStatus() {
+        SharedPreferences sp = getSharedPreferences("LoginDetails", MODE_PRIVATE);
+
+        boolean isLoggedIn = sp.getBoolean("isLogin",false);
+
+        if (isLoggedIn){
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
     private void getUserDetails(String uId) {
         myRef.child(uId).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 User user = task.getResult().getValue(User.class);
-                Log.d("getUserDetails => ", ""+ task.getResult().getValue());
-                Toast.makeText(LoginActivity.this, "Hello! Welcome "+ user.getName(), Toast.LENGTH_SHORT).show();
+                Log.d("getUserDetails => ", "" + task.getResult().getValue());
+                Toast.makeText(LoginActivity.this, "Hello! Welcome " + user.getName(), Toast.LENGTH_SHORT).show();
+
+                SharedPreferences sharedPreferences = getSharedPreferences("LoginDetails", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("UserName", user.getName());
+                editor.putString("UserEmail", user.getEmail());
+                editor.putInt("PinCode", 700012);
+                editor.putBoolean("isLogin", true);
+                editor.apply();
+
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
             } else {
                 Toast.makeText(LoginActivity.this, "" + String.valueOf(task.getResult().getValue()), Toast.LENGTH_SHORT).show();
             }
-        });
-        btnLogin.setOnClickListener(v -> {
-            Intent intent=new Intent(LoginActivity.this,HomeActivity.class);
-            startActivity(intent);
         });
     }
 }
